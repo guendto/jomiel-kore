@@ -148,12 +148,11 @@ def git_show_version(shortened=False):
     return run_command(["git", "show", "-s", fmt, "--abbrev=6", "HEAD"])
 
 
-def format_package_version(package_name, module_name_alt, destination):
+def format_package_version(package_name, destination):
     """Returns the package version string
 
     Args:
         package_name (str): the package name to look up
-        module_name_alt (str): the alternative name for the module
         destination (list): the list to store the result (tuple) to
 
     """
@@ -182,7 +181,7 @@ def format_package_version(package_name, module_name_alt, destination):
             version, zmq_version()
         )
 
-    destination.append((module_name_alt, version))
+    destination.append((package_name, version))
 
 
 # vim: set ts=4 sw=4 tw=72 expandtab:
