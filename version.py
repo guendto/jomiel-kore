@@ -148,11 +148,11 @@ def git_show_version(shortened=False):
     return run_command(["git", "show", "-s", fmt, "--abbrev=6", "HEAD"])
 
 
-def format_module_version(module_name, module_name_alt, destination):
-    """Formats the module version string
+def format_package_version(package_name, module_name_alt, destination):
+    """Returns the package version string
 
     Args:
-        module_name (str): the module name to look up
+        package_name (str): the package name to look up
         module_name_alt (str): the alternative name for the module
         destination (list): the list to store the result (tuple) to
 
@@ -161,7 +161,7 @@ def format_module_version(module_name, module_name_alt, destination):
     def try_module():
         """Tries to import a module."""
         try:
-            module = import_module(module_name)
+            module = import_module(package_name)
         except ImportError as msg:
             print("error: %s" % msg)
             exit_error()
@@ -175,7 +175,7 @@ def format_module_version(module_name, module_name_alt, destination):
         else "(unknown)"
     )
 
-    if module_name == "zmq":
+    if package_name == "zmq":
         from zmq import zmq_version
 
         version = "{} (libzmq version {})".format(
