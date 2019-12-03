@@ -349,23 +349,21 @@ class App(metaclass=ABCMeta):
 
         return opts
 
-    def version_long_modules(self):
-        """[Override] Returns the required modules that we wish to check
+    def version_long_packages(self):
+        """[Override] Returns the required packages that we wish to check
         with --version-long and append to the output.
 
         Note:
             - Override this in your applications
 
         Returns:
-            dict: of module names (empty)
+            list: of package names (empty)
 
             Example:
-                return {'requests': 'Requests',
-                        'yaml': 'PyYAML',
-                        'zmq': 'PyZMQ'}
+                return ['requests', 'yaml', 'pyzmq']
 
         """
-        return {}
+        return []
 
 
 def subprocess_open(args):
