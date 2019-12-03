@@ -154,7 +154,7 @@ def git_show_version(shortened=False):
     return run_command(["git", "show", "-s", fmt, "--abbrev=6", "HEAD"])
 
 
-def format_package_version(package_name, destination):
+def package_version(package_name, destination):
     """Returns the package version string
 
     Args:
