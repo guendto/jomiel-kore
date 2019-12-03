@@ -10,10 +10,16 @@
 #
 """TODO."""
 
-from importlib import import_module
 from os import EX_OK
 
-from .app import exit_error, subprocess_open
+from .app import subprocess_open
+
+try:  # py38+
+    from importlib.metadata import version as metadata_version
+    from importlib.metadata import PackageNotFoundError
+except ImportError:
+    from importlib_metadata import version as metadata_version
+    from importlib_metadata import PackageNotFoundError
 
 
 def try_version(pkg_resources_name):
@@ -156,25 +162,12 @@ def format_package_version(package_name, destination):
         destination (list): the list to store the result (tuple) to
 
     """
+    try:
+        version = metadata_version(package_name)
+    except PackageNotFoundError:
+        version = "<unavailable>"
 
-    def try_module():
-        """Tries to import a module."""
-        try:
-            module = import_module(package_name)
-        except ImportError as msg:
-            print("error: %s" % msg)
-            exit_error()
-        return module
-
-    module = try_module()
-
-    version = (
-        module.__version__
-        if hasattr(module, "__version__")
-        else "(unknown)"
-    )
-
-    if package_name == "zmq":
+    if package_name == "pyzmq":
         from zmq import zmq_version
 
         version = "{} (libzmq version {})".format(
