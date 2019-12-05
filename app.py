@@ -55,9 +55,8 @@ class App(metaclass=ABCMeta):
 
                 The value is typically set to __name__ by the caller.
 
-            version (str): The program version string, if undefined, the
-                the version string is formatted from the output `git
-                show`.
+            version (str): The program version string, if None, the
+                `git show` return value will be used, instead.
 
             no_print_config (bool): If True, disables the -D nor -E
                 options
