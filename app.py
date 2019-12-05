@@ -58,8 +58,7 @@ class App(metaclass=ABCMeta):
             version (str): The program version string, if None, the
                 `git show` return value will be used, instead.
 
-            no_print_config (bool): If True, disables the -D nor -E
-                options
+            no_print_config (bool): If True, disable -D and -E options.
 
             no_default_config_files (bool): If True, disables the
                 use of the default (XDG) configuration files
