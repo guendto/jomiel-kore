@@ -63,8 +63,8 @@ class App(metaclass=ABCMeta):
             no_default_config_files (bool): If True, skip the XDG paths
                 in the configuration file search.
 
-            no_config_file_option (bool): If True, disables the support
-                for the --config-file option
+            no_config_file_option (bool): If True, disable the
+                --config-file option.
 
             no_logger_options (bool): If True, disables the support
                 for logger features (e.g. --logger-file, --logger-ident)
