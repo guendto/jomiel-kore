@@ -60,8 +60,8 @@ class App(metaclass=ABCMeta):
 
             no_print_config (bool): If True, disable -D and -E options.
 
-            no_default_config_files (bool): If True, disables the
-                use of the default (XDG) configuration files
+            no_default_config_files (bool): If True, skip the XDG paths
+                in the configuration file search.
 
             no_config_file_option (bool): If True, disables the support
                 for the --config-file option
