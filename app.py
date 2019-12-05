@@ -66,8 +66,8 @@ class App(metaclass=ABCMeta):
             no_config_file_option (bool): If True, disable the
                 --config-file option.
 
-            no_logger_options (bool): If True, disables the support
-                for logger features (e.g. --logger-file, --logger-ident)
+            no_logger_options (bool): If True, disable all of the logger
+                options (e.g. --logger-file, --logger-ident).
 
             config_module (str): Path to the configuration module that will
                 be imported and accessed throughout the app life-cycle.
