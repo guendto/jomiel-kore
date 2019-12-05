@@ -55,6 +55,10 @@ class App(metaclass=ABCMeta):
 
                 The value is typically set to __name__ by the caller.
 
+            config_module (str): Module path to the "configuration
+                module" used throughout the application runtime
+                life-cycle to access global _cached_ values.
+
             version (str): The program version string, if None, the
                 `git show` return value will be used, instead.
 
@@ -68,9 +72,6 @@ class App(metaclass=ABCMeta):
 
             no_logger_options (bool): If True, disable all of the logger
                 options (e.g. --logger-file, --logger-ident).
-
-            config_module (str): Path to the configuration module that will
-                be imported and accessed throughout the app life-cycle.
 
         """
         self._no_logger_options = kwargs.get("no_logger_options", False)
