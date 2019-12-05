@@ -55,24 +55,23 @@ class App(metaclass=ABCMeta):
 
                 The value is typically set to __name__ by the caller.
 
-            version (str): The program version string, if undefined, the
-                the version string is formatted from the output `git
-                show`.
+            config_module (str): Module path to the "configuration
+                module" used throughout the application runtime
+                life-cycle to access global _cached_ values.
 
-            no_print_config (bool): If True, disables the -D nor -E
-                options
+            version (str): The program version string, if None, the
+                `git show` return value will be used, instead.
 
-            no_default_config_files (bool): If True, disables the
-                use of the default (XDG) configuration files
+            no_print_config (bool): If True, disable -D and -E options.
 
-            no_config_file_option (bool): If True, disables the support
-                for the --config-file option
+            no_default_config_files (bool): If True, skip the XDG paths
+                in the configuration file search.
 
-            no_logger_options (bool): If True, disables the support
-                for logger features (e.g. --logger-file, --logger-ident)
+            no_config_file_option (bool): If True, disable the
+                --config-file option.
 
-            config_module (str): Path to the configuration module that will
-                be imported and accessed throughout the app life-cycle.
+            no_logger_options (bool): If True, disable all of the logger
+                options (e.g. --logger-file, --logger-ident).
 
         """
         self._no_logger_options = kwargs.get("no_logger_options", False)
