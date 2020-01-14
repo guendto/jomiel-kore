@@ -135,16 +135,15 @@ class App(metaclass=ABCMeta):
                 "./logger.yaml",
             ]
 
-            if self._package_name:
-                from pkg_resources import resource_filename
+            if pkg_name:
+                config_path = "%s.config.logger" % pkg_name
+                config_fname = "%s.yaml" % pkg_name
 
-                config_path = "config/logger/%s.yaml" % pkg_name
-
-                resource_fname = resource_filename(
-                    pkg_name, config_path
-                )
-
-                logger_files.insert(0, resource_fname)
+                try:
+                    with resources_path(config_path, config_fname) as p:
+                        logger_files.insert(0, p)
+                except FileNotFoundError:
+                    pass
 
             return (config_files, logger_files)
 
