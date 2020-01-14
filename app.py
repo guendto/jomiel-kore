@@ -14,6 +14,11 @@ from abc import ABCMeta, abstractmethod
 from importlib import import_module
 from sys import stdout
 
+try:  # py37+
+    from importlib.resources import path as resources_path
+except ImportError:
+    from importlib_resources import path as resources_path
+
 
 class App(metaclass=ABCMeta):
     """A simple core class that wraps all-things-necessary to create
