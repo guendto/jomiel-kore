@@ -31,6 +31,7 @@ class App(metaclass=ABCMeta):
         "_no_print_config",
         "_config_module",
         "_logger_files",
+        "_package_additional_search_paths",
         "_package_name",
         "_version",
     ]
@@ -60,6 +61,9 @@ class App(metaclass=ABCMeta):
 
                 The value is typically set to __name__ by the caller.
 
+            package_additional_search_paths (list): The _additional_ package
+                search paths to be added to the sys.path.
+
             config_module (str): Module path to the "configuration
                 module" used throughout the application runtime
                 life-cycle to access global _cached_ values.
@@ -82,6 +86,11 @@ class App(metaclass=ABCMeta):
         self._no_logger_options = kwargs.get("no_logger_options", False)
         self._no_print_config = kwargs.get("no_print_config", False)
         self._config_module = kwargs.get("config_module")
+
+        self._package_additional_search_paths = kwargs.get(
+            "package_additional_search_paths"
+        )
+
         self._package_name = kwargs.get("package_name")
 
         self._no_default_config_files = kwargs.get(
@@ -91,6 +100,15 @@ class App(metaclass=ABCMeta):
         self._no_config_file_option = kwargs.get(
             "no_config_file_option", False
         )
+
+        def add_package_search_paths():
+            """Append the additional package search paths to sys.path."""
+            if self._package_additional_search_paths:
+                from sys import path as sys_path
+
+                for mod_path in self._package_additional_search_paths:
+                    with resources_path(mod_path, "") as path:
+                        sys_path.append(str(path))
 
         def determine_xdg_paths():
             """Return the XDG paths to configuration files."""
@@ -146,6 +164,8 @@ class App(metaclass=ABCMeta):
                 return version
 
             return (version, None)
+
+        add_package_search_paths()
 
         (config_files, self._logger_files) = determine_xdg_paths()
         self._version = determine_version()
