@@ -45,9 +45,9 @@ class App(metaclass=ABCMeta):
 
         Supported arbitrary keyword args (kwargs):
 
-            package_name (str): The package name to be used with
-                pkg_resources queries and XDG configuration file search
-                paths.
+            package_name (str): The package name to be used for
+                package resource queries and building the XDG XDG
+                configuration file search paths.
 
                 - The value will be used to determine the different XDG
                   configuration file paths
@@ -55,7 +55,7 @@ class App(metaclass=ABCMeta):
                 - Needed to retrieve information about the installed
                   version of the application
 
-                - If None, the pkg_resources queries will be skipped
+                - If None, the package resources queries will be skipped
 
                 - If None, XDG configuration file path searches will be
                   skipped
