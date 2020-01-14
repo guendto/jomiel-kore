@@ -32,6 +32,7 @@ class App(metaclass=ABCMeta):
         "_config_module",
         "_logger_files",
         "_package_additional_search_paths",
+        "_package_data_dir",
         "_package_name",
         "_version",
     ]
@@ -60,6 +61,10 @@ class App(metaclass=ABCMeta):
                   skipped
 
                 The value is typically set to __name__ by the caller.
+
+            package_data_dir (str): The package data dir. This is
+                package_name + package_data_dir. Be sure to set
+                package_name, also.
 
             package_additional_search_paths (list): The _additional_ package
                 search paths to be added to the sys.path.
@@ -90,7 +95,7 @@ class App(metaclass=ABCMeta):
         self._package_additional_search_paths = kwargs.get(
             "package_additional_search_paths"
         )
-
+        self._package_data_dir = kwargs.get("package_data_dir")
         self._package_name = kwargs.get("package_name")
 
         self._no_default_config_files = kwargs.get(
@@ -156,7 +161,8 @@ class App(metaclass=ABCMeta):
             if not version:
                 from .version import try_version
 
-                version = try_version(self._package_name)
+                if self._package_data_dir:
+                    version = try_version(self._package_data_dir)
 
             if isinstance(
                 version, list
