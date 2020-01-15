@@ -29,7 +29,7 @@ class CustomCommand__sdist(sdist):
 
 
 class CustomCommand__bdist_wheel(bdist_wheel):
-    """Custom command for setup target bdist_wheel."""
+    """Custom command for setup target bdist_wheel. Triggers build_py."""
 
     def run(self):
         """run"""
