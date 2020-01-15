@@ -162,6 +162,8 @@ class App(metaclass=ABCMeta):
 
                 if self._package_data_dir:
                     version = try_version(self._package_data_dir)
+                else:
+                    version = "(unknown)"
 
             if isinstance(
                 version, list
