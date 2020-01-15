@@ -46,8 +46,16 @@ def compile_protobuf_bindings(bootstrap_path, proto_dir, dest_dir):
         exit_error()
 
 
-def generate_protobuf_bindings():
-    """Generates the bindings for the protobuf message declarations."""
+def generate_protobuf_bindings(proto_path, proto_files):
+    """Generates the bindings for the protobuf message declarations.
+
+    Args:
+        proto_path (str): the root path to the .proto files, this is
+            essentially what protoc(1) takes as -I<value>
+
+        proto_files (list): the full path to the .proto files
+
+    """
     from ..app import exit_error
 
     protoc = detect_protoc()
@@ -58,17 +66,16 @@ def generate_protobuf_bindings():
     from subprocess import call
     from os import EX_OK
 
-    from .cache import PROTO_FILES, PROTO_PATH
     from .echo import put
 
     put("Compiling the protobuf declarations for jomiel messages\n")
 
-    for fname in PROTO_FILES:
+    for fname in proto_files:
         put("  Compiling %s..." % fname)
         args = [
             protoc,
-            "-I" + PROTO_PATH,
-            "--python_out=" + PROTO_PATH,
+            "-I" + proto_path,
+            "--python_out=.",
             fname,
         ]
         if call(args) != EX_OK:
