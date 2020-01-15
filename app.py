@@ -370,10 +370,11 @@ class App(metaclass=ABCMeta):
 
             mod = import_module(self._config_module)
 
-            if opts.logger_config:
-                self._logger_files.insert(0, opts.logger_config)
+            if not self._no_logger_options:
+                if opts.logger_config:
+                    self._logger_files.insert(0, opts.logger_config)
+                mod.logger_paths = self._logger_files
 
-            mod.logger_paths = self._logger_files
             mod.opts = opts
 
         opts = parser.parse()
