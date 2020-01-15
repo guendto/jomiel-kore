@@ -42,12 +42,29 @@ class CustomCommand__build_py(build_py):
 
     def run(self):
         """run"""
-        from .proto import generate_protobuf_bindings
+        from .cache import (
+            BOOTSTRAP_PATH,
+            PROTO_ROOT_DIR,
+            DATA_BINDINGS_DIR,
+        )
+        from .proto import compile_protobuf_bindings
         from .version import save_version_file
         from .file import touch_file
 
-        generate_protobuf_bindings()
-        touch_file(PROTO_INIT)
+        compile_protobuf_bindings(
+            BOOTSTRAP_PATH, PROTO_ROOT_DIR, DATA_BINDINGS_DIR
+        )
+
+        def packagistize_bindings_dir():
+            """Add the missing __init__.py file to the bindings dir."""
+            from os.path import join, sep
+
+            path = DATA_BINDINGS_DIR.replace(".", sep)
+            tmp = join(path, "__init__.py")
+            print("tmp", tmp)
+            touch_file(join(path, "__init__.py"))
+
+        packagistize_bindings_dir()
         save_version_file()
 
         return build_py.run(self)
