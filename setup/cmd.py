@@ -13,18 +13,19 @@
 from distutils.command.clean import clean
 
 from setuptools.command.build_py import build_py
-from setuptools.command.sdist import sdist
 from wheel.bdist_wheel import bdist_wheel
 
+# from setuptools.command.sdist import sdist
 
-
+"""
 class CustomCommand__sdist(sdist):
-    """Custom command for setup target sdist."""
+    # Custom command for setup target sdist. Triggers build_py.
 
     def run(self):
-        """run"""
+        # run
         self.run_command("build_py")
         return sdist.run(self)
+"""
 
 
 class CustomCommand__bdist_wheel(bdist_wheel):
