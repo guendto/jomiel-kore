@@ -11,6 +11,41 @@
 """TODO."""
 
 
+def compile_protobuf_bindings(bootstrap_path, proto_dir, dest_dir):
+    """Compile the proto buffer declarations.
+
+    This function calls the `bootstrap` script of jomiel-kore to produce
+    the bindings.
+
+    Args:
+        bootstrap_path (str): the path to the `bootstrap` script
+
+        proto_dir (str): the path to the _root_ dir containing the
+            .proto files
+
+        dest_dir (str): the destination dir for the compiled bindings
+
+    """
+    from subprocess import call
+    from os.path import sep
+    from os import EX_OK
+
+    args = [
+        bootstrap_path,
+        "-p",
+        proto_dir,
+        "-l",
+        "python",
+        "-d",
+        dest_dir.replace(".", sep),
+    ]
+
+    from ..app import exit_error
+
+    if call(args) != EX_OK:
+        exit_error()
+
+
 def generate_protobuf_bindings():
     """Generates the bindings for the protobuf message declarations."""
     from ..app import exit_error
