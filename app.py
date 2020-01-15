@@ -26,6 +26,7 @@ class App(metaclass=ABCMeta):
 
     __slots__ = [
         "_no_default_config_files",
+        "_no_version_long_option",
         "_no_config_file_option",
         "_no_logger_options",
         "_no_print_config",
@@ -81,6 +82,9 @@ class App(metaclass=ABCMeta):
             no_default_config_files (bool): If True, skip the XDG paths
                 in the configuration file search.
 
+            no_version_long_option (bool): If True, disable
+                --version-long option, altogether.
+
             no_config_file_option (bool): If True, disable the
                 --config-file option.
 
@@ -88,6 +92,9 @@ class App(metaclass=ABCMeta):
                 options (e.g. --logger-file, --logger-ident).
 
         """
+        self._no_version_long_option = kwargs.get(
+            "no_version_long_option", False
+        )
         self._no_logger_options = kwargs.get("no_logger_options", False)
         self._no_print_config = kwargs.get("no_print_config", False)
         self._config_module = kwargs.get("config_module")
@@ -190,13 +197,14 @@ class App(metaclass=ABCMeta):
             version="%(prog)s version " + self._version[0],
         )
 
-        parser.add(
-            "-v",
-            "--version-long",
-            help="""show version information about program's
-                    environment and exit""",
-            action="store_true",
-        )
+        if not self._no_version_long_option:
+            parser.add(
+                "-v",
+                "--version-long",
+                help="""show version information about program's
+                        environment and exit""",
+                action="store_true",
+            )
 
         if not self._no_config_file_option:
             parser.add(
@@ -316,7 +324,7 @@ class App(metaclass=ABCMeta):
         def handle_version_long():
             """Handle --version-long"""
 
-            if not opts.version_long:
+            if self._no_version_long_option or not opts.version_long:
                 return
 
             def version_long():
