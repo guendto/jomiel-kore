@@ -143,7 +143,12 @@ class App(metaclass=ABCMeta):
             ]
 
             if pkg_name:
-                config_path = "%s.config.logger" % pkg_name
+                path_prefix = pkg_name
+
+                if self._package_data_dir:
+                    path_prefix = self._package_data_dir
+
+                config_path = "%s.config.logger" % path_prefix
                 config_fname = "%s.yaml" % pkg_name
 
                 try:
