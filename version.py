@@ -17,7 +17,7 @@ from .app import subprocess_open
 try:  # py38+
     from importlib.metadata import version as metadata_version
     from importlib.metadata import PackageNotFoundError
-except ImportError:
+except ModuleNotFoundError:
     from importlib_metadata import version as metadata_version
     from importlib_metadata import PackageNotFoundError
 
