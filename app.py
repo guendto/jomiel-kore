@@ -16,7 +16,7 @@ from sys import stdout
 
 try:  # py37+
     from importlib.resources import path as resources_path
-except ImportError:
+except ModuleNotFoundError:
     from importlib_resources import path as resources_path
 
 
