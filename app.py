@@ -67,8 +67,8 @@ class App(metaclass=ABCMeta):
                 package_name + package_data_dir. Be sure to set
                 package_name, also.
 
-            package_additional_search_paths (list): The _additional_ package
-                search paths to be added to the sys.path.
+            package_additional_search_paths (list): The _additional_
+                package search paths to be added to the sys.path.
 
             config_module (str): Module path to the "configuration
                 module" used throughout the application runtime
