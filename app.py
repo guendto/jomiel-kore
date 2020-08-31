@@ -146,8 +146,8 @@ class App(metaclass=ABCMeta):
                 if self._package_data_dir:
                     path_prefix = self._package_data_dir
 
-                config_path = "%s.config.logger" % path_prefix
-                config_fname = "%s.yaml" % pkg_name
+                config_path = f"{path_prefix}.config.logger"
+                config_fname = f"{pkg_name}.yaml"
 
                 try:
                     with resources_path(config_path, config_fname) as p:
@@ -323,7 +323,6 @@ class App(metaclass=ABCMeta):
                     return [
                         {key: value} for key, value in found_packages
                     ]
-
 
                 from sys import version as py_version
 
