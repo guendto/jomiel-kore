@@ -16,8 +16,9 @@ The minimalistic foundation for creating new [Python] applications.
 
 ## Installation
 
-`jomiel-kore` is intended to be `git-subtree`'d into your project.
-Installation from [PyPI] is not currently supported.
+```shell
+pip install jomiel-kore
+```
 
 ## Acknowledgements
 
