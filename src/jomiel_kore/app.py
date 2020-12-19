@@ -46,7 +46,7 @@ class App(metaclass=ABCMeta):
         Supported arbitrary keyword args (kwargs):
 
             package_name (str): The package name to be used for
-                package resource queries and building the XDG XDG
+                package resource queries and building the XDG
                 configuration file search paths.
 
                 - The value will be used to determine the different XDG
@@ -56,6 +56,20 @@ class App(metaclass=ABCMeta):
 
                 - If None, XDG configuration file path searches will be
                   skipped
+
+                - Default search paths
+
+                  - for application configuration files
+
+                    /etc/xdg/{pkg_name}/{pkg_name}.yaml
+                    ~/.config/{pkg_name}/{pkg_name}.yaml
+                    ./{pkg_name}.yaml
+
+                  - for logger configuration files
+
+                    /etc/xdg/{pkg_name}/logger.yaml
+                    ~/.config/{pkg_name}/logger.yaml
+                    ./logger.yaml
 
                 The value is typically set to __name__ by the caller.
 
