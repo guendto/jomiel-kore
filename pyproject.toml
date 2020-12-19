@@ -1,10 +1,12 @@
 [tool.black]
+target-version = ['py38']
 line-length = 72
 exclude = '''   # exclude common dirs
 (
     /(
         examples
         \.git
+        \.tox
     )/
 )
 '''
