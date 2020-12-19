@@ -1,3 +1,5 @@
+src/jomiel_kore/__init__.py
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
