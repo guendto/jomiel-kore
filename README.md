@@ -6,18 +6,31 @@
 
 The minimalistic foundation for creating new [Python] applications.
 
-## License
-
-`jomiel-kore` is licensed under the [Apache License version 2.0][aplv2].
-
 ## Requirements
 
 `jomiel-kore` is written for [Python] 3.6 and later.
 
 ## Installation
 
-`jomiel-kore` is intended to be `git-subtree`'d into your project.
-Installation from [PyPI] is not currently supported.
+```shell
+pip install jomiel-kore
+```
+
+## Building packages from repo
+
+```shell
+git clone https://github.com/guendto/jomiel-kore
+cd jomiel-kore
+git tag -s KEYID -am 'jomiel-kore version VERSION (INITIALS)' TAGNAME
+pip install pep517
+python -m pep517.build [-s|-b] .
+```
+
+The packages are created under the dist/ dir.
+
+## License
+
+`jomiel-kore` is licensed under the [Apache License version 2.0][aplv2].
 
 ## Acknowledgements
 
