@@ -1,8 +1,13 @@
 # jomiel-kore
 
-![code-style]
+[![pypi-pyversions](https://img.shields.io/pypi/pyversions/jomiel-kore?color=%230a66dc)][pypi]
+[![pypi-v](https://img.shields.io/pypi/v/jomiel-kore?color=%230a66dc)][pypi]
+[![pypi-wheel](https://img.shields.io/pypi/wheel/jomiel-kore?color=%230a66dc)][pypi]
+[![pypi-status](https://img.shields.io/pypi/status/jomiel-kore?color=%230a66dc)][pypi]
+[![code-style](https://img.shields.io/badge/code%20style-black-000000.svg)][black]
 
-[code-style]: https://img.shields.io/badge/code%20style-black-000000.svg
+[pypi]: https://pypi.org/project/jomiel-kore
+[black]: https://pypi.org/project/black
 
 The minimalistic foundation for creating new [Python] applications.
 
