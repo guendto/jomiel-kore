@@ -226,6 +226,13 @@ class App(metaclass=ABCMeta):
                 action="store_true",
             )
 
+            parser.add(
+                "-P",
+                "--config-paths",
+                help="Print default configuration file paths",
+                action="store_true",
+            )
+
         def logger_group():
             """Add the logger option group."""
             grp = parser.add_argument_group("logger")
@@ -268,14 +275,9 @@ class App(metaclass=ABCMeta):
     def parse_opts(self, parser):
         """Parses the options.
 
-        Notes:
-            - Handles the -D and -E options gracefully
-
-            - Applications subclassing this class, do not need to
-              implement the support
-
-            - Instead, the these are either disabled by the subclass or
-              handled automagically by the superclass
+        Handles the --print-config, --report-config and --config-paths
+        automatically. The subclass can override the default behaviour
+        with "no_print_config_option=True".
 
         Args:
             parser (obj): configargparse parser instance
@@ -283,7 +285,8 @@ class App(metaclass=ABCMeta):
         """
 
         def handle_print_config():
-            """Handle the -D and -E options."""
+            """Handle --print-config, --report-config and
+            --config-paths."""
 
             if self._no_print_config_option:
                 return
@@ -312,11 +315,18 @@ class App(metaclass=ABCMeta):
                 parser.print_values()
                 exit_normal()
 
+            def print_config_paths(parser):
+                dump_as_yaml({
+                    "configuration": self._config_files,
+                    "logging": self._logger_files,
+                })
+
             if opts.print_config:
                 print_config_values(opts)
-
             elif opts.report_config:
                 print_report_config(parser)
+            elif opts.config_paths:
+                print_config_paths(parser)
 
         def handle_version_long():
             """Handle --version-long"""
