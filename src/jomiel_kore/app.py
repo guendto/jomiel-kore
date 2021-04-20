@@ -30,6 +30,7 @@ class App(metaclass=ABCMeta):
         "_no_config_file_option",
         "_no_logger_options",
         "_config_module",
+        "_config_files",
         "_logger_files",
         "_package_additional_search_paths",
         "_package_data_dir",
@@ -177,13 +178,13 @@ class App(metaclass=ABCMeta):
 
         add_package_search_paths()
 
-        (config_files, self._logger_files) = determine_xdg_paths()
+        (self._config_files, self._logger_files) = determine_xdg_paths()
         self._version = kwargs.get("version", "?")
 
         from configargparse import get_parser
 
         parser = get_parser(
-            default_config_files=config_files,
+            default_config_files=self._config_files,
             add_config_file_help=False,
         )
 
