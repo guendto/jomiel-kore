@@ -8,6 +8,10 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+## Added
+
+- Option --config-paths (app.py)
+
 ## [v0.1.0] - 2021-01-08
 
 - First public preview release.
