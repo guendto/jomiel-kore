@@ -299,10 +299,9 @@ class App(metaclass=ABCMeta):
                     opts (dict): configargparse returned options
 
                 """
-                data = {
+                dump_as_yaml({
                     "configuration": opts.__dict__,
-                }
-                dump_as_yaml(data)
+                })
 
             def print_report_config(parser):
                 """Prints the configuration sources to stdout and
