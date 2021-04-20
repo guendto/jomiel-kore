@@ -169,7 +169,7 @@ class App(metaclass=ABCMeta):
 
                 try:
                     with resources_path(config_path, config_fname) as p:
-                        logger_files.insert(0, p)
+                        logger_files.insert(0, str(p))
                 except FileNotFoundError:
                     pass
 
