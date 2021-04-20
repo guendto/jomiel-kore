@@ -469,8 +469,9 @@ def dump_logger_identities(loggers, detailed=False):
 
     """
     idents = loggers if detailed else [ident for ident in loggers]
-    yaml = {"identities": idents}
-    dump_as_yaml(yaml)
+    dump_as_yaml({
+        "identities": idents
+    })
 
 
 # vim: set ts=4 sw=4 tw=72 expandtab:
