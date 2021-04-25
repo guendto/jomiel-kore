@@ -299,9 +299,11 @@ class App(metaclass=ABCMeta):
                     opts (dict): configargparse returned options
 
                 """
-                dump_as_yaml({
-                    "configuration": opts.__dict__,
-                })
+                dump_as_yaml(
+                    {
+                        "configuration": opts.__dict__,
+                    },
+                )
 
             def print_report_config(parser):
                 """Prints the configuration sources to stdout and
@@ -315,10 +317,12 @@ class App(metaclass=ABCMeta):
                 exit_normal()
 
             def print_config_paths(parser):
-                dump_as_yaml({
-                    "configuration": self._config_files,
-                    "logging": self._logger_files,
-                })
+                dump_as_yaml(
+                    {
+                        "configuration": self._config_files,
+                        "logging": self._logger_files,
+                    },
+                )
 
             if opts.print_config:
                 print_config_values(opts)
@@ -469,9 +473,11 @@ def dump_logger_identities(loggers, detailed=False):
 
     """
     idents = loggers if detailed else [ident for ident in loggers]
-    dump_as_yaml({
-        "identities": idents
-    })
+    dump_as_yaml(
+        {
+            "identities": idents,
+        },
+    )
 
 
 # vim: set ts=4 sw=4 tw=72 expandtab:
