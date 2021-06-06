@@ -8,8 +8,6 @@
 # SPDX-License-Identifier: Apache-2.0
 #
 """TODO."""
-import logging as lgg
-
 from deprecated import deprecated
 
 
@@ -72,7 +70,6 @@ def read_input(**kwargs):
     validate_uri = True if components_only else validate_uri
 
     if validate_uri:
-        # lgg.debug('validate input URIs')
         from urllib.parse import urlparse, urlunparse
 
     def parse():
@@ -80,8 +77,6 @@ def read_input(**kwargs):
 
         def add(value):
             """Append a new value to the results."""
-
-            # lgg.debug('input item <%s>' % value)
 
             if validate_uri:
 
@@ -101,11 +96,10 @@ def read_input(**kwargs):
 
         result = []
         if nargs:
-            # lgg.debug('parse from nargs')
             for narg in nargs:
                 add(narg)
         else:
-            # lgg.debug('parse from stdin')
+
             def read_stdin():
                 """Read from stdin."""
                 from sys import stdin
@@ -123,7 +117,7 @@ def read_input(**kwargs):
 
     result = parse()
     if unique_items_only:
-        # lgg.debug('return unique items only')
+
         def unique_items(seq):  # https://stackoverflow.com/a/480227
             """Return unique items in the results, only."""
             seen = set()
