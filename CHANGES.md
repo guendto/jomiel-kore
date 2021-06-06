@@ -8,6 +8,19 @@ adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
+### Added
+
+- refactor(input): `process_input` function
+
+### Changed
+
+- build(setup.cfg): add dependency for "deprecated"
+- build(setup.cfg): add dependency for "validators"
+
+### Deprecated
+
+- refactor(input): deprecate `read_input`, use `process_input` instead
+
 ## [v0.1.1] - 2021-04-25
 
 ### Added
