@@ -10,7 +10,10 @@
 """TODO."""
 import logging as lgg
 
+from deprecated import deprecated
 
+
+@deprecated(reason="use `process_input`, instead")
 def read_input(**kwargs):
     """Reads input from, either, the command line (nargs returned by
     configargparse) or directly from stdin. The input is parsed for URIs
