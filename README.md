@@ -23,10 +23,16 @@ pip install jomiel-kore
 
 Install from the repository, e.g. for development:
 
-```
-git clone https://github.com/guendto/jomiel-kore.git
+```shell
+git clone https://github.com/guendto/jomiel-kore
 cd jomiel-kore
-pip install -e .
+pip install -e .  # Install a project in editable mode
+```
+
+Or, if you'd rather not install in "editable mode":
+
+```shell
+pip install git+https://github.com/guendto/jomiel-kore
 ```
 
 ## License
