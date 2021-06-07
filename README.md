@@ -21,6 +21,14 @@ The minimalistic foundation for creating new [Python] applications.
 pip install jomiel-kore
 ```
 
+Install from the repository, e.g. for development:
+
+```
+git clone https://github.com/guendto/jomiel-kore.git
+cd jomiel-kore
+pip install -e .
+```
+
 ## License
 
 `jomiel-kore` is licensed under the [Apache License version 2.0][aplv2].
