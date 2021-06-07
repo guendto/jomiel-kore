@@ -2,15 +2,16 @@
 # jomiel-kore
 #
 # Copyright
-#  2019 Toni Gündoğdu
+#  2019,2021 Toni Gündoğdu
 #
 #
 # SPDX-License-Identifier: Apache-2.0
 #
 """TODO."""
-import logging as lgg
+from deprecated import deprecated
 
 
+@deprecated(reason="use `process_input`, instead")
 def read_input(**kwargs):
     """Reads input from, either, the command line (nargs returned by
     configargparse) or directly from stdin. The input is parsed for URIs
@@ -69,7 +70,6 @@ def read_input(**kwargs):
     validate_uri = True if components_only else validate_uri
 
     if validate_uri:
-        # lgg.debug('validate input URIs')
         from urllib.parse import urlparse, urlunparse
 
     def parse():
@@ -77,8 +77,6 @@ def read_input(**kwargs):
 
         def add(value):
             """Append a new value to the results."""
-
-            # lgg.debug('input item <%s>' % value)
 
             if validate_uri:
 
@@ -98,11 +96,10 @@ def read_input(**kwargs):
 
         result = []
         if nargs:
-            # lgg.debug('parse from nargs')
             for narg in nargs:
                 add(narg)
         else:
-            # lgg.debug('parse from stdin')
+
             def read_stdin():
                 """Read from stdin."""
                 from sys import stdin
@@ -120,7 +117,7 @@ def read_input(**kwargs):
 
     result = parse()
     if unique_items_only:
-        # lgg.debug('return unique items only')
+
         def unique_items(seq):  # https://stackoverflow.com/a/480227
             """Return unique items in the results, only."""
             seen = set()
@@ -131,77 +128,187 @@ def read_input(**kwargs):
     return result
 
 
+def process_input(**kwargs):
+    """Return valid URIs read from either the array of args (nargs) or
+    the standard input (stdin). Defaults to reading from the stdin.
+
+    When reading from the stdin, a hash ('#') can be used for comments.
+    For example:
+
+        # This is a comment line, and ignored.
+        https://foo  # also ignored.
+        https://bar
+        # https://baz
+
+    Args:
+        **kwargs: arbitrary keyword args
+
+    Supported arbitrary keyword args (kwargs):
+
+        nargs (list): the so called "leftover args" typically returned
+            by command-line arg parsers after parsing the CLI options.
+            If none is given (or the array is empty), then read, process
+            and store the input from the stdin, instead.
+
+        http_only (bool): raise an error when True and URI schema is
+            anything else but "http/s".
+
+        rebuild_uri (bool): if True, rebuilds each item from the URI
+            components. Useful when you want to "cleanup" the URI. e.g.:
+            schema "HtTPs" -> "https".
+
+        return_as_objects (bool): if True, the result array will contain
+            URI objects (`urllib.parse.ParseResult`) instead of strings.
+            Ignores the `rebuild_uri` value.
+
+        unique_items_only (bool): if True, the result list will only
+            hold unique values.
+
+    Raises:
+        ValueError: if the item was
+            - not of supported protocol (HTTP/S), see `http_only`
+            - not a valid URI
+
+    Returns:
+        list: a list of valid URIs
+
+    """
+    from urllib.parse import urlparse, urlunparse
+    from validators import url as is_uri
+
+    options = {
+        "nargs": None,
+        "http_only": True,
+        "rebuild_uri": True,
+        "return_as_objects": False,
+        "return_unique_items": True,
+    }
+    options.update(kwargs)
+
+    options["rebuild_uri"] = (
+        False
+        if options["return_as_objects"]
+        else options["rebuild_uri"]
+    )
+
+    def add_item(value):
+        """Store item to the `result` list if it qualifies.
+
+        Args:
+            value (str): the URI
+
+        """
+        if not value or len(value) == 0:
+            return
+
+        if not is_uri(value):
+            raise ValueError(f"'{value}' is not a valid URI")
+
+        uri = urlparse(value)
+
+        if options["http_only"] and not uri.scheme.startswith("http"):
+            raise ValueError(
+                f"{uri.scheme} unsupported protocol ({value})",
+            )
+
+        if options["rebuild_uri"]:
+            value = urlunparse(uri)
+
+        if options["return_as_objects"]:
+            value = uri
+
+        result.append(value)
+
+    nargs = options.get("nargs", None)
+    result = []
+
+    if nargs and len(options["nargs"]) > 0:
+        for narg in nargs:
+            add_item(narg)
+    else:
+
+        def from_stdin():
+            from sys import stdin
+
+            for ln in stdin:
+                ln = ln.split("#", 1)[0].strip()
+                add_item(ln)
+
+        from_stdin()
+
+    if options["return_unique_items"]:
+        result = list(dict.fromkeys(result))
+
+    return result
+
+
 if __name__ == "__main__":
+    from configargparse import get_parser
 
-    def parse_opts():
-        """Parse options."""
-
-        from configargparse import get_parser
-
-        parser = get_parser(add_config_file_help=False)
-
-        parser.add(
-            "-b",
-            "--verbose",
-            help="Enable DEBUG logging level",
-            action="store_true",
-        )
-
-        parser.add(
-            "-v",
-            "--validate-uri",
-            help="Validate each item as an URI",
-            action="store_true",
-        )
-
-        parser.add(
-            "-u",
-            "--unique-items-only",
-            help="Return unique items only",
-            action="store_true",
-        )
-
-        parser.add(
-            "-c",
-            "--components-only",
-            help="Return items as broken down components",
-            action="store_true",
-        )
-
-        parser.add(
-            "-r",
-            "--rebuild_uri",
-            help="Rebuild items as URIs",
-            action="store_true",
-        )
-
-        parser.add("uri", nargs="*")
-        return parser.parse()
-
-    opts = parse_opts()
-
-    def enable_debug():
-        """Enable verbose logging."""
-        level = lgg.DEBUG if opts.verbose else lgg.INFO
-        lgg.basicConfig(
-            level=level,
-            format="[%(levelname)s] %(message)s",
-        )
-
-    enable_debug()
-
+    parser = get_parser(add_config_file_help=False)
+    parser.add(
+        "-t",
+        "--http-only",
+        help="Expect URIs to be HTTP/S URI strings",
+        action="store_true",
+        default=True,
+    )
+    parser.add(
+        "-T",
+        "--no-http-only",
+        dest="http_only",
+        action="store_false",
+    )
+    parser.add(
+        "-r",
+        "--rebuild-uri",
+        help="Rebuild each item from the URI components",
+        action="store_true",
+        default=True,
+    )
+    parser.add(
+        "-R",
+        "--no-rebuild-uri",
+        dest="rebuild_uri",
+        action="store_false",
+    )
+    parser.add(
+        "-o",
+        "--return-as-objects",
+        help="Return URIs as objects (urllib.parse.ParseResult)",
+        action="store_true",
+    )
+    parser.add(
+        "-O",
+        "--no-return-as-objects",
+        dest="return_as_objects",
+        action="store_false",
+    )
+    parser.add(
+        "-u",
+        "--return-unique-items",
+        help="Return only unique values",
+        action="store_true",
+        default=True,
+    )
+    parser.add(
+        "-U",
+        "--no-return-unique-items",
+        dest="return_unique_items",
+        action="store_false",
+    )
+    parser.add("uri", nargs="*")
+    args = parser.parse().__dict__
     try:
-        items = read_input(
-            unique_items_only=opts.unique_items_only,
-            components_only=opts.components_only,
-            validate_uri=opts.validate_uri,
-            rebuild_uri=opts.rebuild_uri,
-            nargs=opts.uri,
-        )
-        for item in items:
-            lgg.info(item)
-        lgg.info("total items %d", len(items))
-    except ValueError as error:
-        lgg.error(error)
+        result = process_input(**args, nargs=args["uri"])
+        for uri in result:
+            print(uri)
+    except Exception as error:
+        from sys import exit
+
+        print(f"error: {error}")
+        exit(1)
+    except KeyboardInterrupt:
+        pass
 
 # vim: set ts=4 sw=4 tw=72 expandtab:
