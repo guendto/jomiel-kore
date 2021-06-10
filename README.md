@@ -45,7 +45,8 @@ pip install git+https://github.com/guendto/jomiel-kore
 
 ## Acknowledgements
 
-`jomiel-kore` uses [pre-commit] and its many hooks to lint and format
-the project files. See the .pre-commit-config.yaml file for details.
+- [pre-commit] is used for linting and reformatting, see the
+  [.pre-commit-config.yaml] file
 
+[.pre-commit-config.yaml]: https://github.com/guendto/jomiel-kore/blob/master/.pre-commit-config.yaml
 [pre-commit]: https://pre-commit.com/
