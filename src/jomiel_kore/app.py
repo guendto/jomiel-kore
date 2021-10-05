@@ -209,6 +209,7 @@ class App(metaclass=ABCMeta):
                 help="Read configuration from the specified file",
                 is_config_file=True,
                 metavar="FILE",
+                env_var="CONFIG_FILE",
             )
 
         if not self._no_print_config_option:
