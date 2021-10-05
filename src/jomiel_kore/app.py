@@ -263,6 +263,7 @@ class App(metaclass=ABCMeta):
                 help="Use the logger identity",
                 metavar="IDENT",
                 default="default",
+                env_var="LOGGER_IDENT",
             )
 
         if not self._no_logger_options:
