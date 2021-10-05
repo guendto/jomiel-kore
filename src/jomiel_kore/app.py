@@ -241,6 +241,7 @@ class App(metaclass=ABCMeta):
                 "--logger-config",
                 help="Logger configuration file to read",
                 metavar="FILE",
+                env_var="LOGGER_CONFIG",
             )
 
             grp.add(
