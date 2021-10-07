@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [0.2.2](https://github.com/guendto/jomiel-kore/compare/v0.2.1...v0.2.2) (2021-10-07)
+
+
+### Features
+
+* **log:** log_init: add support for ident_must_exist (kwargs) ([915e07d](https://github.com/guendto/jomiel-kore/commit/915e07d3570ffd73118bc2ed8932165c177baf2a))
+
 ### [0.2.1](https://github.com/guendto/jomiel-kore/compare/v0.2.0...v0.2.1) (2021-10-05)
 
 
